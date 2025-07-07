@@ -1,168 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>RPCiot</title>
-<link rel="icon" href="logo.png" type="image/png" />
-<style>
-  @font-face {
-    font-family: 'League Spartan';
-    src: url('LeagueSpartan-Bold.woff2') format('woff2'),
-         url('LeagueSpartan-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
-    font-family: 'League Spartan', sans-serif;
-    color: #eee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-  }
-  .container {
-    background: #111;
-    border-radius: 14px;
-    padding: 3rem 4rem;
-    max-width: 450px;
-    width: 90vw;
-    box-sizing: border-box;
-    box-shadow: 0 8px 24px rgba(23, 216, 96, 0.3);
-  }
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-    user-select: text;
-  }
-  .logo {
-    width: 56px;
-    height: 56px;
-    object-fit: contain;
-  }
-  h1 {
-    font-size: 2.8rem;
-    color: #17d860;
-    margin: 0;
-  }
-  p.info {
-    font-size: 1rem;
-    color: #bbb;
-    margin-bottom: 2rem;
-    line-height: 1.4;
-    user-select: text;
-  }
-  p.info a {
-    color: #17d860;
-    text-decoration: none;
-  }
-  label {
-    font-size: 1.1rem;
-    font-weight: 700;
-    display: block;
-    margin-bottom: 0.4rem;
-    user-select: text;
-  }
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 1.6rem;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    border: 2px solid #222;
-    background-color: #222;
-    color: #eee;
-    font-family: 'League Spartan', sans-serif;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-  }
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    outline: none;
-    border-color: #17d860;
-    background-color: #000;
-    color: #17d860;
-  }
-  button {
-    width: 100%;
-    padding: 14px 0;
-    background-color: #17d860;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: #000;
-    font-family: 'League Spartan', sans-serif;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  button:hover {
-    background-color: #12b849;
-  }
-  .message {
-    margin-top: 1rem;
-    font-weight: 700;
-    min-height: 1.4rem;
-    font-size: 1.1rem;
-    user-select: none;
-  }
-</style>
-</head>
-<body>
-  <main class="container" role="main" aria-label="RPCgroup IoT Sign In">
-    <div class="header">
-      <img src="logo.png" alt="RPCgroup Logo" class="logo" />
-      <h1>RPCgroup IoT</h1>
-    </div>
-    <p class="info" aria-live="polite">
-      Please ask Amin to authenticate.<br />
-      Support: <a href="mailto:iot@rpcgroup.xyz">iot@rpcgroup.xyz</a>
-    </p>
-    <form id="login-form" novalidate>
-      <label for="user">User</label>
-      <input id="user" type="text" autocomplete="username" placeholder="Enter your user" required />
-      <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
-      <button type="submit" aria-label="Sign in">Sign In</button>
-      <p id="msg" class="message" aria-live="assertive"></p>
-    </form>
-  </main>
-
-  <script>
-    // Check if already logged in; if so, allow access or optionally skip login
-    if(localStorage.getItem('rpcgroupLoggedIn') === 'true') {
-      document.getElementById('msg').textContent = "✅ You are already signed in.";
-      // Optionally redirect instantly:
-      // window.location.href = "https://rpcgroup.xyz";
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPCiot</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    @font-face {
+      font-family: 'LeagueSpartan';
+      src: url('LeagueSpartan-Bold.woff2') format('woff2'),
+           url('LeagueSpartan-Bold.woff') format('woff');
+      font-weight: bold;
     }
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const user = document.getElementById('user').value.trim();
-      const password = document.getElementById('password').value;
+    body {
+      margin: 0;
+      font-family: 'LeagueSpartan', sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-image: url('https://cdn.jsdelivr.net/gh/home-assistant/assets@master/backgrounds/header-blur-dark.svg');
+      background-size: cover;
+      background-position: center;
+    }
 
-      // Only accept correct user/password pair
-      if(user === 'user' && password === 'admin') {
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      margin: 0.5rem 0 1rem;
+      font-size: 2rem;
+      color: #17d860;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #17d860;
+      color: #000;
+      border: none;
+      padding: 0.75rem;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .support {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    .auth-text {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+  </style>
+  <script>
+    // Auto-redirect if already logged in
+    if (localStorage.getItem('rpcgroupLoggedIn') === 'true') {
+      window.location.href = "https://rpcgroup.xyz";
+    }
+
+    function login() {
+      const user = document.getElementById('user').value;
+      const pass = document.getElementById('pass').value;
+
+      if (user === 'user' && pass === 'admin') {
         localStorage.setItem('rpcgroupLoggedIn', 'true');
-        document.getElementById('msg').style.color = '#17d860';
-        document.getElementById('msg').textContent = '✅ Signed in successfully! Redirecting...';
-        setTimeout(() => {
-          window.location.href = 'https://rpcgroup.xyz';
-        }, 1300);
+        window.location.href = "https://rpcgroup.xyz";
       } else {
-        document.getElementById('msg').style.color = '#ff4c4c';
-        document.getElementById('msg').textContent = '❌ Invalid user or password.';
+        alert('Incorrect username or password.');
       }
-    });
-
-    // Optional: On initial visit to rpcgroup.xyz you would do the reverse redirect (via your server or cloudflare worker)
+    }
   </script>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.png" class="logo" alt="RPCgroup logo">
+    <h1>RPCgroup IoT</h1>
+    <div class="auth-text">Please Ask Admin To Authenticate</div>
+    <input type="text" id="user" placeholder="Username" />
+    <input type="password" id="pass" placeholder="Password" />
+    <button onclick="login()">Sign In</button>
+    <div class="support">Need help? Contact: <a href="mailto:iot@rpcgroup.xyz" style="color:#17d860">iot@rpcgroup.xyz</a></div>
+  </div>
 </body>
 </html>
