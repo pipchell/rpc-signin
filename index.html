@@ -1,117 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RPCiot</title>
-  <link rel="icon" href="logo.png" type="image/png">
-  <style>
-    @font-face {
-      font-family: 'LeagueSpartan';
-      src: url('LeagueSpartan-Bold.woff2') format('woff2'),
-           url('LeagueSpartan-Bold.woff') format('woff');
-      font-weight: bold;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'LeagueSpartan', sans-serif;
-      background: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-image: url('https://cdn.jsdelivr.net/gh/home-assistant/assets@master/backgrounds/header-blur-dark.svg');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .container {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 2rem 3rem;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-    }
-
-    .logo {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 0.5rem;
-    }
-
-    h1 {
-      margin: 0.5rem 0 1rem;
-      font-size: 2rem;
-      color: #17d860;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    button {
-      background-color: #17d860;
-      color: #000;
-      border: none;
-      padding: 0.75rem;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-
-    .support {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-
-    .auth-text {
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-  </style>
-  <script>
-    // Auto-redirect if already logged in
-    if (localStorage.getItem('rpcgroupLoggedIn') === 'true') {
-      window.location.href = "https://rpcgroup.xyz";
-    }
-
-    function login() {
-      const user = document.getElementById('user').value;
-      const pass = document.getElementById('pass').value;
-
-      if (user === 'user' && pass === 'admin') {
-        localStorage.setItem('rpcgroupLoggedIn', 'true');
-        window.location.href = "https://rpcgroup.xyz";
-      } else {
-        alert('Incorrect username or password.');
-      }
-    }
-  </script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RPCgroup IoT Admin</title>
+<style>
+  body {
+    background: #000;
+    color: #17d860;
+    font-family: 'League Spartan', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  label {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  p.info {
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" class="logo" alt="RPCgroup logo">
-    <h1>RPCgroup IoT</h1>
-    <div class="auth-text">Please Ask Admin To Authenticate</div>
-    <input type="text" id="user" placeholder="Username" />
-    <input type="password" id="pass" placeholder="Password" />
-    <button onclick="login()">Sign In</button>
-    <div class="support">Need help? Contact: <a href="mailto:iot@rpcgroup.xyz" style="color:#17d860">iot@rpcgroup.xyz</a></div>
-  </div>
+  <label>
+    <input type="checkbox" id="redirectToggle" />
+    Enable redirect from rpcgroup.xyz to admin.rpcgroup.xyz
+  </label>
+
+  <p class="info">Please ask Admin to authenticate.<br />Support: <a href="mailto:iot@rpcgroup.xyz" style="color:#17d860;">iot@rpcgroup.xyz</a></p>
+
+<script>
+  const toggle = document.getElementById('redirectToggle');
+
+  // Fetch current toggle status from Worker API
+  async function fetchStatus() {
+    try {
+      const res = await fetch('/api/redirect-status');
+      const data = await res.json();
+      toggle.checked = data.redirectEnabled;
+    } catch {
+      console.error('Failed to fetch redirect status');
+    }
+  }
+
+  toggle.addEventListener('change', async () => {
+    try {
+      await fetch('/api/set-redirect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ redirectEnabled: toggle.checked }),
+      });
+    } catch {
+      alert('Failed to update redirect setting');
+    }
+  });
+
+  fetchStatus();
+</script>
 </body>
 </html>
