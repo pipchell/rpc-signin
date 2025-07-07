@@ -1,253 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RPCiot</title>
-  <link rel="icon" href="logo.png" type="image/png" />
-  <style>
-    @font-face {
-      font-family: 'League Spartan';
-      src: url('LeagueSpartan-Bold.woff2') format('woff2'),
-           url('LeagueSpartan-Bold.woff') format('woff');
-      font-weight: bold;
-      font-style: normal;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background: #000;
-      font-family: 'League Spartan', sans-serif;
-      color: #eee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      user-select: none;
-    }
-    canvas#bg-canvas {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1;
-      background: #000;
-    }
-    .container {
-      background: rgba(0,0,0,0.75);
-      padding: 2rem 3rem 3rem 3rem;
-      border-radius: 10px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 30px #17d86044;
-    }
-    .logo {
-      width: 48px;
-      height: 48px;
-      vertical-align: middle;
-      margin-right: 8px;
-      filter: drop-shadow(0 0 2px #17d860);
-    }
-    h2 {
-      display: inline-block;
-      font-weight: 700;
-      color: #17d860;
-      font-size: 1.8rem;
-      vertical-align: middle;
-      margin: 0 0 1rem 0;
-      user-select: text;
-    }
-    .header {
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .info {
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      color: #ccc;
-      line-height: 1.3;
-      user-select: text;
-    }
-    .info a.support {
-      color: #17d860;
-      text-decoration: none;
-    }
-    label {
-      display: block;
-      text-align: left;
-      margin-bottom: 0.3rem;
-      font-weight: 700;
-      font-size: 0.9rem;
-      user-select: text;
-    }
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 1rem;
-      border: 2px solid #222;
-      border-radius: 5px;
-      background: #111;
-      color: #eee;
-      font-size: 1rem;
-      font-family: 'League Spartan', sans-serif;
-      transition: border-color 0.3s ease;
-    }
-    input[type="text"]:focus, input[type="password"]:focus {
-      outline: none;
-      border-color: #17d860;
-      background: #000;
-      color: #17d860;
-    }
-    button {
-      width: 100%;
-      background: #17d860;
-      color: #000;
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.25s ease;
-      font-family: 'League Spartan', sans-serif;
-      user-select: none;
-    }
-    button:hover {
-      background: #12b849;
-    }
-    .message {
-      margin-top: 0.7rem;
-      min-height: 1.2rem;
-      font-weight: 700;
-      user-select: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>RPCiot</title>
+<link rel="icon" href="logo.png" type="image/png" />
+<style>
+  @font-face {
+    font-family: 'League Spartan';
+    src: url('LeagueSpartan-Bold.woff2') format('woff2'),
+         url('LeagueSpartan-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #121212 100%);
+    font-family: 'League Spartan', sans-serif;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+  .container {
+    background: #111;
+    border-radius: 14px;
+    padding: 3rem 4rem;
+    max-width: 450px;
+    width: 90vw;
+    box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(23, 216, 96, 0.3);
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    user-select: text;
+  }
+  .logo {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+  }
+  h1 {
+    font-size: 2.8rem;
+    color: #17d860;
+    margin: 0;
+  }
+  p.info {
+    font-size: 1rem;
+    color: #bbb;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+    user-select: text;
+  }
+  p.info a {
+    color: #17d860;
+    text-decoration: none;
+  }
+  label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.4rem;
+    user-select: text;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 1.6rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border: 2px solid #222;
+    background-color: #222;
+    color: #eee;
+    font-family: 'League Spartan', sans-serif;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #17d860;
+    background-color: #000;
+    color: #17d860;
+  }
+  button {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #17d860;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #000;
+    font-family: 'League Spartan', sans-serif;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background-color: #12b849;
+  }
+  .message {
+    margin-top: 1rem;
+    font-weight: 700;
+    min-height: 1.4rem;
+    font-size: 1.1rem;
+    user-select: none;
+  }
+</style>
 </head>
 <body>
-  <canvas id="bg-canvas"></canvas>
   <main class="container" role="main" aria-label="RPCgroup IoT Sign In">
     <div class="header">
       <img src="logo.png" alt="RPCgroup Logo" class="logo" />
-      <h2>RPCgroup IoT</h2>
+      <h1>RPCgroup IoT</h1>
     </div>
     <p class="info" aria-live="polite">
-      Please Ask Amin To Authenticate.<br />
-      Support: <a href="mailto:iot@rpcgroup.xyz" class="support">iot@rpcgroup.xyz</a>
+      Please ask Amin to authenticate.<br />
+      Support: <a href="mailto:iot@rpcgroup.xyz">iot@rpcgroup.xyz</a>
     </p>
     <form id="login-form" novalidate>
       <label for="user">User</label>
-      <input id="user" type="text" autocomplete="username" placeholder="Your username" required />
+      <input id="user" type="text" autocomplete="username" placeholder="Enter your user" required />
       <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+      <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
       <button type="submit" aria-label="Sign in">Sign In</button>
-      <p class="message" id="msg" aria-live="assertive"></p>
+      <p id="msg" class="message" aria-live="assertive"></p>
     </form>
   </main>
 
   <script>
-    // Background animation (same as before)
-    (() => {
-      const canvas = document.getElementById('bg-canvas');
-      const ctx = canvas.getContext('2d');
-      let w, h;
-      let points = [];
-      const POINT_COUNT = 60;
+    // Check if already logged in; if so, allow access or optionally skip login
+    if(localStorage.getItem('rpcgroupLoggedIn') === 'true') {
+      document.getElementById('msg').textContent = "✅ You are already signed in.";
+      // Optionally redirect instantly:
+      // window.location.href = "https://rpcgroup.xyz";
+    }
 
-      function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        points = [];
-        for(let i=0; i < POINT_COUNT; i++) {
-          points.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-          });
-        }
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('user').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Only accept correct user/password pair
+      if(user === 'user' && password === 'admin') {
+        localStorage.setItem('rpcgroupLoggedIn', 'true');
+        document.getElementById('msg').style.color = '#17d860';
+        document.getElementById('msg').textContent = '✅ Signed in successfully! Redirecting...';
+        setTimeout(() => {
+          window.location.href = 'https://rpcgroup.xyz';
+        }, 1300);
+      } else {
+        document.getElementById('msg').style.color = '#ff4c4c';
+        document.getElementById('msg').textContent = '❌ Invalid user or password.';
       }
+    });
 
-      function dist(a,b) {
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        return Math.sqrt(dx*dx + dy*dy);
-      }
-
-      function draw() {
-        ctx.clearRect(0,0,w,h);
-        for(let i=0; i < POINT_COUNT; i++) {
-          for(let j=i+1; j < POINT_COUNT; j++) {
-            let d = dist(points[i], points[j]);
-            if(d < 150) {
-              ctx.strokeStyle = `rgba(23, 216, 96, ${(150-d)/150 * 0.25})`;
-              ctx.lineWidth = 1;
-              ctx.beginPath();
-              ctx.moveTo(points[i].x, points[i].y);
-              ctx.lineTo(points[j].x, points[j].y);
-              ctx.stroke();
-            }
-          }
-        }
-        for(let p of points) {
-          ctx.fillStyle = '#17d860';
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      function update() {
-        for(let p of points) {
-          p.x += p.vx;
-          p.y += p.vy;
-          if(p.x < 0 || p.x > w) p.vx *= -1;
-          if(p.y < 0 || p.y > h) p.vy *= -1;
-        }
-      }
-
-      function loop() {
-        update();
-        draw();
-        requestAnimationFrame(loop);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      loop();
-    })();
-
-    // Login logic with one-time redirect per device
-    (() => {
-      const form = document.getElementById('login-form');
-      const msg = document.getElementById('msg');
-
-      // If already logged in before, skip redirect, just show form or optionally hide login
-      if(localStorage.getItem('rpcgroupLoggedIn') === 'true') {
-        msg.style.color = '#17d860';
-        msg.textContent = '✅ Already signed in on this device.';
-      }
-
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const user = document.getElementById('user').value.trim();
-        const password = document.getElementById('password').value;
-
-        if(user === 'user' && password === 'admin') {
-          if(localStorage.getItem('rpcgroupLoggedIn') !== 'true') {
-            localStorage.setItem('rpcgroupLoggedIn', 'true');
-            msg.style.color = '#17d860';
-            msg.textContent = '✅ Signed in successfully! Redirecting...';
-            setTimeout(() => {
-              window.location.href = 'https://rpcgroup.xyz';
-            }, 1200);
-          } else {
-            // Already logged in before, no redirect
-            msg.style.color = '#17d860';
-            msg.textContent = '✅ You are already signed in.';
-          }
-        } else {
-          msg.style.color = '#ff4c4c';
-          msg.textContent =
+    // Optional: On initial visit to rpcgroup.xyz you would do the reverse redirect (via your server or cloudflare worker)
+  </script>
+</body>
+</html>
